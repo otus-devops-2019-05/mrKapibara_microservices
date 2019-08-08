@@ -1,0 +1,22 @@
+credentials.json
+
+*variables.json
+gce_googlecompute.pem
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+*.retry
+jdauphant.nginx
+vault.key
+__pycache__
+venv
+*_init.sh
+
+# Vagrant & molecule
+.vagrant/
+*.pyc
+.molecule
+.cache
+.pytest_cache
