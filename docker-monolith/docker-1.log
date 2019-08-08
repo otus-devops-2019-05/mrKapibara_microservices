@@ -1,0 +1,5 @@
+REPOSITORY                     TAG                 IMAGE ID            CREATED             SIZE
+atselishchev/ubuntu-tmp-file   latest              1dd798e0b021        42 seconds ago      118MB
+
+Образ - заранее подготовленный образ системы с установленными зависимостями. Шаблон для создания контейнеров. 
+Контейнер - Созданный экземпляр образа.

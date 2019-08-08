@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: gce
+lint:
+  name: yamllint
+platforms:
+  - name: instance-molecule
+    zone: europe-west1-b
+    machine_type: f1-micro
+    image: ubuntu-1604-xenial-v20190628
+    tags: molecule-ssh
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  log: true
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

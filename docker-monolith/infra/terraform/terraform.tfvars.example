@@ -1,0 +1,3 @@
+project = "project_name"
+region = "europe-west1"
+bucket-name = "some-name"
