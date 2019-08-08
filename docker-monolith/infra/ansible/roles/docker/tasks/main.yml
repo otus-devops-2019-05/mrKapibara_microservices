@@ -1,0 +1,42 @@
+---
+- name: Show info about the env this host belongs to
+  debug:
+    msg: "This host is in {{ env }} environment"
+
+- name: Install Docker Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags:
+  - docker_install
+  
+- name: Install Docker repository
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: yes
+  tags:
+  - docker_install
+  
+- name: Install Docker packages
+  apt:
+    name: "{{ docker_apt_packages }}"
+    state: present
+  tags:
+  - docker_install
+
+- name: pip - install docker module
+  pip:
+    name: docker
+    state: present
+  tags:
+  - docker_install
+
+- name: Enable & Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+  tags:
+  - docker_install
+  

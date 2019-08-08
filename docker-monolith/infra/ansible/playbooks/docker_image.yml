@@ -1,0 +1,17 @@
+---
+- name: Build docker imgage & push
+  hosts: localhost
+  gather_facts: false
+  vars:
+    version: "stable"
+  tasks:
+  - name: Build
+    docker_image:
+      name: mrkapibara/otus-reddit
+      state: present
+      tag: "{{ version }}"
+      source: build
+      build:
+        path: ../../../
+        pull: no
+      push: yes

@@ -1,0 +1,6 @@
+---
+- name: deploy Docke image
+  hosts: docker_monolith_instances
+  sudo: true
+  roles:
+  - docker-monolith-app
