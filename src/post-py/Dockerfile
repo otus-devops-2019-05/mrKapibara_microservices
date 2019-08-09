@@ -3,7 +3,7 @@ FROM python:3.6.0-alpine
 WORKDIR /app
 COPY . /app
 
-RUN apk add g++ --no-cache && pip install -r /requirements.txt \
+RUN apk add g++ --no-cache && pip install -r requirements.txt \
 && apk del g++ && rm -rf /root/.cache
 
 ENV POST_DATABASE_HOST post
