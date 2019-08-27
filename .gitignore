@@ -13,6 +13,7 @@ vault.key
 __pycache__
 venv
 *_init.sh
+.env
 
 # Vagrant & molecule
 .vagrant/
