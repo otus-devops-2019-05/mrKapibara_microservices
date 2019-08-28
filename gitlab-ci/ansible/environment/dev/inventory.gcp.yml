@@ -1,0 +1,9 @@
+plugin: gcp_compute
+auth_kind: serviceaccount
+service_account_file: "$GOOGLE_APPLICATION_CREDENTIALS"
+projects: "docker-248911"
+keyed_groups:
+- key: "labels.group"
+  separator: ""
+filters:
+- 'labels.environment = dev'

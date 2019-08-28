@@ -1,0 +1,22 @@
+---
+gitlab_runner_registration_token: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32353130643730633335393037343231323235373234356265343666306363373633343662663233
+          6332356333343862616334373431333936313830626133300a663962333361323063303431643035
+          35333937383132306130373963653438616335343961326138616561393737343461336564393635
+          3831366463336431620a653630633166333931356336316636343539356665616165393561376665
+          38666431346434643863383762343663353337656138646132313437366461313234
+gitlab_runner_coordinator_url: 'gitlab-ci-url'
+gitlab_runner_runners:
+  - name: 'Docker GitLab Runner'
+    executor: docker
+    docker_image: docker:latest
+    state: present
+    tags:
+      - linux
+      - docker
+    docker_volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/cache"
+    runners.docker.sysctls:
+      net.ipv4.ip_forward: "1"

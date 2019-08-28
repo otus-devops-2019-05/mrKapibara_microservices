@@ -1,0 +1,77 @@
+image: docker:latest
+
+stages:
+  - build
+  - test
+  - review
+  - stage
+  - production
+
+variables:
+  DATABASE_URL: 'mongodb://mongo/user_posts'
+
+before_script:
+  - cd reddit
+  
+build_job:
+  stage: build
+  script:
+    - echo 'Building'
+    - docker build -t $REPO_NAME/$APP_NAME:$CI_COMMIT_REF_NAME .
+    
+test_unit_job:
+  stage: test
+  services:
+    - mongo:latest
+  script:
+    - docker run $REPO_NAME/$APP_NAME:$CI_COMMIT_REF_NAME ruby simpletest.rb
+
+test_integration_job:
+  stage: test
+  script:
+    - echo 'Testing 2'
+
+deploy_dev_job:
+  stage: review
+  before_script:
+    # WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+    - echo $DOCKER_REGISTRY_PASSWORD | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - echo 'Deploying'
+    - docker push $REPO_NAME/$APP_NAME:$CI_COMMIT_REF_NAME
+    - export DOCKER_HOST=$STAGE_HOST 
+    - docker run -d -p 9292:9292 $REPO_NAME/$APP_NAME:$CI_COMMIT_REF_NAME
+  environment:
+    name: dev
+    url: $DEV_URL
+
+branch review:
+  stage: review
+  script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
+  environment:
+    name: branch/$CI_COMMIT_TAG
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+  except:
+    - master
+
+stage:
+  stage: stage
+  when: manual
+  only:
+  - /^\d+\.\d+\.\d+/
+  script:
+  - echo 'Deploy1'
+  environment:
+    name: stage
+    url: http://stage.example.com
+
+production:
+  stage: production
+  when: manual
+  only:
+  - /^\d+\.\d+\.\d+/
+  script:
+  - echo 'Deploy'
+  environment:
+    name: production
+    url: http://prod.example.com

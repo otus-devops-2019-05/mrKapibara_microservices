@@ -1,0 +1,15 @@
+---
+- name: Install Gitlab CI
+  import_playbook: gitlab_ci_server_omnibus.yml
+  tags:
+  - gitlab_ci_server
+
+- name: Install & register runners
+  hosts: gitlab_ci_runner
+  become: True
+  vars_files: 
+  - "gitlab_ci_runner_vars.yml"
+  roles:
+  - { role: riemers.gitlab-runner }
+  tags:
+  - gitlab_ci_runner
