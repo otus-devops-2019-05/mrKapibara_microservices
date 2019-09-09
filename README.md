@@ -218,3 +218,35 @@ Gitlab CI - инструмент построения пайплайна неп�
 
 </p>
 </details>
+
+<details>
+    <summary>05. Введение в мониторинг. Модели и принципы работы систем мониторинга
+    </summary>
+<p>
+
+# Введение в мониторинг. Модели и принципы работы систем мониторинга
+
+## Prometheus
+
+[Документация](https://prometheus.io/docs/prometheus/latest/getting_started/)
+
+
+[Прометеус](https://prometheus.io/docs/introduction/overview/) - [tsdb](https://en.wikipedia.org/wiki/Time_series_database) использующая язык запросов [PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/).
+- настраивается через [конфигурационные файлы](monitoring/prometheus/prometheus.yml) и опции запуска
+- для сбора метрик используются [экспортеры](https://prometheus.io/docs/instrumenting/exporters/)
+- для информирования - [Алерты](https://prometheus.io/docs/alerting/configuration/). 
+
+Напишем [конигарационный файл](monitoring/prometheus/prometheus.yml) для прометеуся и [Dockerfile](monitoring/prometheus/Dockerfile) для сборки кастомного образа.
+
+Для сборки метрик хоста ,с запущенными контейнерами, будем использовать [node-exporter](https://github.com/prometheus/node_exporter)
+
+Метрики с базы данных будем собирать с помощью [mongodb_exporter](https://github.com/percona/mongodb_exporter).добавим [Dockerfile](monitoring/mongodb_exporter/Dockerfile) для сборки контейнера.
+
+Сервисы post, comment, ui умеют отдавать метрики в понятном для прометеуса виде. Для проверки доступности контейнеров и страниц с метриками будем использовать [blackbox_exporter](https://github.com/prometheus/blackbox_exporter). Опишем [конфигурацию](monitoring/blackbox_exporter/blackbox.yml), и добавим [Dockerfile](monitoring/blackbox_exporter/Dockerfile) для сборки контейнера.
+
+Добавим в [docker-compose.yml](docker/docker-compose.yml) описание сервисов монитормнга.
+
+Напишем [Makefile](Makefile) для удобной работы с контейнерами, и отправим их в наш [Docher hub](https://hub.docker.com/u/mrkapibara) репозиторий.
+[Make - Документация](https://www.gnu.org/software/make/manual/make.html)
+</p>
+</details>
